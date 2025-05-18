@@ -11,8 +11,7 @@ const Home = ({productos,bannerData}) => {
       {console.log(bannerData)}
       {console.log(productos)}
       <div className='products-heading'>
-        <h2>Las mejores trufas de España</h2>
-        <p>Trufas de diferentes variedades</p>
+        <h2>¿Qué variedad eliges?</h2>
       </div>
 
       <div className='products-container'>
