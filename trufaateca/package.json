@@ -9,13 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/core": "^7.27.1",
+    "@sanity/client": "^7.2.1",
+    "@sanity/image-url": "^1.1.0",
+    "@stripe/stripe-js": "^7.3.0",
+    "canvas-confetti": "^1.9.3",
+    "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.2"
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "stripe": "^18.1.0"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "eslint": "^9",
-    "eslint-config-next": "15.3.2",
-    "@eslint/eslintrc": "^3"
+    "eslint-config-next": "15.3.2"
   }
 }

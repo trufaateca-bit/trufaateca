@@ -1,0 +1,7 @@
+export { default as Footer} from './Footer'
+export { default as Carrito} from './Carrito'
+export { default as FooterBanner} from './FooterBanner'
+export { default as HeroBanner} from './HeroBanner'
+export { default as Layaout} from './Layaout'
+export { default as NavegacionBar} from './NavegacionBar'
+export { default as Producto} from './Producto'
