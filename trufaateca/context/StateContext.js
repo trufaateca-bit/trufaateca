@@ -39,6 +39,7 @@ export const StateContext = ({ children }) => {
     }, 0);
   };
 
+
   const toggleCartItemQuantity = (index, action) => {
     const updatedCart = [...cartItems];
     const item = updatedCart[index];
@@ -79,6 +80,10 @@ export const StateContext = ({ children }) => {
         setShowCart,
         toggleCartItemQuantity,
         removeCartItem,
+        setShowCart,
+        setCartItems,         // <-- Asegúrate de incluir esto
+        setTotalPrice,        // <-- Y esto
+        setTotalQuantities 
       }}
     >
       {children}

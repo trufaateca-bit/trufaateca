@@ -691,6 +691,49 @@ margin-top: 160px;
   margin-top: 10px;
 }
 
+.gracias-wrapper {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2e8da;
+  color: #3b2f2f;
+}
+
+.gracias-content {
+  text-align: center;
+  padding: 40px;
+  background-color: #fff8ee;
+  border: 2px dashed #b99f79;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  max-width: 500px;
+  font-family: 'Georgia', serif;
+}
+
+.gracias-icon {
+  font-size: 60px;
+  color: #3c763d;
+  margin-bottom: 20px;
+}
+
+.btn-rustico {
+  background-color: #57452a;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  border: 2px solid #745c3c;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn-rustico:hover {
+  transform: scale(1.05);
+}
+
+
 
 @media screen and (max-width:800px) {
   .hero-banner-container{
