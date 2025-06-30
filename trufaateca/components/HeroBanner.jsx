@@ -1,23 +1,20 @@
-import Link from 'next/link'
-import React from 'react'
+import React from 'react';
+import { urlFor } from '@/lib/sanity_client';
 
-import { urlFor } from '@/lib/sanity_client'
-
-const HeroBanner = ({heroBanner}) => {
+const HeroBanner = ({ heroBanner }) => {
   return (
-    <div className='hero-banner-container'>
-      <div>
-        <img src={urlFor(heroBanner.image)} alt='trufas' 
-        className='hero-banner-image'/>
-        <div>
-          <div className='desc'>
-            <h5>Descripción</h5>
-            <p>{heroBanner.desc}</p>
-          </div>
-        </div>
+    <div className="hero-banner-container">
+      <img
+        src={urlFor(heroBanner.image)}
+        alt="trufas"
+        className="hero-banner-image"
+      />
+      <div className="desc">
+        <h5>Descripción</h5>
+        <p>{heroBanner.desc}</p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HeroBanner
+export default HeroBanner;

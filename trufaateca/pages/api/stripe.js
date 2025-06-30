@@ -2,23 +2,23 @@ const stripe = require('stripe')(process.env.NEXT_SECRET_STRIPE_KEY);
 
 export const config = {
   api: {
-    bodyParser: true, // Asegura que el body esté parseado
+    bodyParser: true,
   },
 };
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     if (!req.body || !req.body.cartItems || !Array.isArray(req.body.cartItems)) {
-      return res.status(400).json({ error: 'Cart items missing or invalid.' })}
-      console.log(req.body.cartItems)
+      return res.status(400).json({ error: 'Cart items missing or invalid.' });
+    }
+
     try {
       const params = {
         submit_type: 'pay',
-        locale: 'es', // idioma español
         payment_method_types: ['card'],
         billing_address_collection: 'required',
         shipping_address_collection: {
-            allowed_countries: ['ES'], // solo direcciones en España
+          allowed_countries: ['ES'],
         },
         shipping_options: [
           { shipping_rate: 'shr_1Rfj4kGdfIEovBFtvXxjvawa' },
@@ -29,8 +29,6 @@ export default async function handler(req, res) {
           const newImage = img
             .replace('image-', 'https://csn.sanity.io/images/xhpb5q5u/production/')
             .replace('-webp', '.webp');
-        
-        
 
           return {
             price_data: {
@@ -44,8 +42,17 @@ export default async function handler(req, res) {
             quantity: item.quantity,
           };
         }),
+        metadata: {
+          cart: JSON.stringify(
+            req.body.cartItems.map(item => ({
+              id: item._id,
+              grams: item.grams,
+              quantity: item.quantity,
+            }))
+          )
+        },
         mode: 'payment',
-        success_url: `${req.headers.origin}/gracias`,
+        success_url: `${req.headers.origin}/gracias?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
       };
 

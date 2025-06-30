@@ -11,14 +11,12 @@ const Home = ({productos,bannerData}) => {
       {console.log(bannerData)}
       {console.log(productos)}
       <div className='products-heading'>
-        <h2>¿Qué variedad eliges?</h2>
+        <h1>¿Qué variedad eliges?</h1>
       </div>
 
       <div className='products-container'>
         {productos?.map((product) => <Producto key={product._id} product={product}/> )}
       </div>
-
-      <FooterBanner footerBanner={bannerData && bannerData[0]}/>
     </>
   )
 }

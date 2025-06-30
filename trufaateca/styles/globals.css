@@ -692,47 +692,72 @@ margin-top: 160px;
 }
 
 .gracias-wrapper {
-  min-height: 70vh;
+  background-color: #dbc5a4; /* Beige rústico */
+  min-height: 100vh;
+  padding: 40px 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: #f2e8da;
-  color: #3b2f2f;
+  justify-content: center;
 }
 
-.gracias-content {
+.gracias-container {
   text-align: center;
-  padding: 40px;
-  background-color: #fff8ee;
-  border: 2px dashed #b99f79;
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  max-width: 500px;
-  font-family: 'Georgia', serif;
+  max-width: 600px;
+  width: 100%;
 }
 
-.gracias-icon {
-  font-size: 60px;
-  color: #3c763d;
+.gracias-logo {
   margin-bottom: 20px;
 }
 
-.btn-rustico {
-  background-color: #57452a;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 12px;
+.gracias-content {
+  background: none;
+  border-radius: 8px;
+  padding: 30px 20px;
+}
+
+.icon {
+  font-size: 50px;
+  color: #4e7d35;
+}
+
+h2 {
+  font-family: 'Georgia', serif;
+  font-size: 26px;
+  color: #3e2f1c;
+  margin: 20px 0 10px;
+}
+
+.gracias-text,
+.gracias-contacto {
+  font-family: 'Georgia', serif;
+  color: #4a3b28;
+  margin: 10px 0;
+}
+
+.email {
+  color: #a33a2f;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.btn-gracias {
+  background-color: #4e432e;
+  color: #fff3dc;
+  border: none;
+  padding: 12px 28px;
+  font-family: 'Georgia', serif;
   font-size: 16px;
-  border: 2px solid #745c3c;
+  margin-top: 25px;
   cursor: pointer;
-  transition: transform 0.3s ease;
-  margin-top: 20px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-.btn-rustico:hover {
-  transform: scale(1.05);
+.btn-gracias:hover {
+  background-color: #3d3526;
 }
-
 
 
 @media screen and (max-width:800px) {
@@ -948,13 +973,20 @@ margin-top: 160px;
 
 /* MOBILE OPTIMIZATION */
 @media screen and (max-width: 640px) {
-  .hero-banner-container {
-    padding: 10px 16px 0;
-  }
+  .hero-banner-container{
+  padding: 80px 40px; 
+  border-radius: 15px;
+  border-color: black;  
+  position: relative;
+  height: 350px;
+  line-height: 0.9; 
+  width: 100%;
 
-  .hero-banner-image {
-    max-width: 90%;
-    margin: 0 auto 6px;
+}
+
+
+  .desc {
+    margin-top: 0.2rem;
   }
 
   .desc h5 {
@@ -963,9 +995,9 @@ margin-top: 160px;
   }
 
   .desc p {
-    margin-top: 4px;
+    margin-top: 2px;
     font-size: 0.95rem;
-    line-height: 1.4;
+    line-height: 1;
   }
    .product-detail-container .product-detail-image{
     width: 350px;
