@@ -6,7 +6,33 @@ import { runFireworks } from '@/lib/utils';
 import Stripe from 'stripe';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
+import { sendEmailGmail } from '@/lib/sendEmail'; // Gmail version
 
+// ✅ FUNCIÓN PARA Pushover (fuera del componente)
+async function sendPushoverNotification({ title, message }) {
+  try {
+    const response = await fetch("https://api.pushover.net/1/messages.json", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        token: process.env.PUSHOVER_APP_TOKEN,
+        user: process.env.PUSHOVER_USER_KEY,
+        title,
+        message,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("❌ Error al enviar notificación Pushover:", data.errors || data);
+    } else {
+      console.log("✅ Notificación enviada a Pushover con éxito:", data);
+    }
+  } catch (error) {
+    console.error("❌ Error inesperado al enviar notificación Pushover:", error);
+  }
+}
 
 const Gracias = ({ orderDetails }) => {
   const { setCartItems, setTotalPrice, setTotalQuantities } = useStateContext();
@@ -16,14 +42,11 @@ const Gracias = ({ orderDetails }) => {
     setCartItems?.([]);
     setTotalPrice?.(0);
     setTotalQuantities?.(0);
-    runFireworks();
   }, []);
 
   return (
     <div className="gracias-wrapper">
       <div className="gracias-container">
-
-        {/* Logo arriba */}
         <div className="gracias-logo">
           <Image
             src="https://cdn.sanity.io/images/xhpb5q5u/production/70f3be134e08c35ab73fcc5d7ba2faf51bb3c9c8-277x247.png"
@@ -58,7 +81,8 @@ const Gracias = ({ orderDetails }) => {
             <p className="gracias-text">
               Dirección: <br />
               <strong>
-                {orderDetails.address.line1}, {orderDetails.address.postal_code}, {orderDetails.address.city},{orderDetails.address.state}, {orderDetails.address.country}
+                {orderDetails.address.line1}, {orderDetails.address.postal_code}, {orderDetails.address.city},{' '}
+                {orderDetails.address.state}, {orderDetails.address.country}
               </strong>
             </p>
           )}
@@ -77,7 +101,6 @@ const Gracias = ({ orderDetails }) => {
   );
 };
 
-// ✅ Recuperar detalles de Stripe
 export const getServerSideProps = async (context) => {
   const stripe = new Stripe(process.env.NEXT_SECRET_STRIPE_KEY);
   const { session_id } = context.query;
@@ -97,30 +120,27 @@ export const getServerSideProps = async (context) => {
 
     const metadata = session.metadata?.cart ? JSON.parse(session.metadata.cart) : [];
     const productos = lineItems.data.map((item, index) => ({
-        name: item.description,
-        quantity: item.quantity,
-        price: parseFloat(metadata[index]?.price) || null,
-        grams: metadata[index]?.grams || null,
-      }));
+      name: item.description,
+      quantity: item.quantity,
+      price: parseFloat(metadata[index]?.price) || null,
+      grams: metadata[index]?.grams || null,
+    }));
 
-    // Genera el string legible
-    const productos_legibles = productos.map(p => 
+    const productos_legibles = productos.map(p =>
       `${p.name} - ${p.grams}g x${p.quantity}`
     ).join('\n');
 
-
-    console.log('Dirección completa Stripe:', session.customer_details);
-
-    
     const orderDetails = {
-    name: session?.customer_details?.name || null,
-    email: session?.customer_details?.email || null,
-    address: session.customer_details?.address || null, // <- CORRECTO
-  };
-    const fullAddress = [orderDetails.address.line1, orderDetails.address.line2].filter(Boolean).join(', ');
+      name: session?.customer_details?.name || null,
+      email: session?.customer_details?.email || null,
+      address: session.customer_details?.address || null,
+    };
 
+    const fullAddress = [orderDetails.address.line1, orderDetails.address.line2]
+      .filter(Boolean)
+      .join(', ');
 
-   const { error } = await supabase.from('compras').insert([{
+    const { error } = await supabase.from('compras').insert([{
       email: orderDetails.email || null,
       nombre: orderDetails.name || null,
       direccion_envio: fullAddress || null,
@@ -139,6 +159,19 @@ export const getServerSideProps = async (context) => {
     } else {
       console.log("✅ Pedido guardado en Supabase");
     }
+
+
+    // 📧 Envío de correo con Gmail
+    const email = orderDetails.email;
+    const name = orderDetails.name;
+    const { success, error: emailError } = await sendEmailGmail({ to: email, name });
+
+    if (!success) console.error("❌ Error al enviar email con Gmail:", emailError?.message);
+    else console.log("✅ Email enviado correctamente");
+    await sendPushoverNotification({
+      title: "📦 Nuevo pedido recibido",
+      message: `Cliente: ${orderDetails.name}\nProductos: ${productos_legibles}`,
+    });
 
     return {
       props: {
