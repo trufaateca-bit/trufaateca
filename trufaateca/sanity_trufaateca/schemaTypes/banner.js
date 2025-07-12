@@ -12,23 +12,23 @@ export default {
             },
         },
         {
-            name: 'buttonText',
-            title: 'ButtonText',
-            type: 'string',
-        },
-        {
-            name: 'product',
-            title: 'Product',
-            type: 'string',
-        },
-        {
             name: 'desc',
             title: 'Desc',
             type: 'string',
         },
         {
-            name: 'smallText',
-            title: 'SmallText',
+            name: 'Trufa',
+            title: 'Trufa',
+            type: 'string',
+        },
+        {
+            name: 'Trufa2',
+            title: 'Trufa2',
+            type: 'string',
+        },
+        {
+            name: 'Trufa3',
+            title: 'Trufa3',
             type: 'string',
         },
         {
@@ -45,16 +45,6 @@ export default {
             name: 'largeText2',
             title: 'LargeText2',
             type: 'string',
-        },
-        {
-            name: 'discount',
-            title: 'Discount',
-            type: 'string',
-        },
-        {
-            name: 'saleTime',
-            title: 'SaleTime',
-            type: 'string',
-        },
+        }
     ],
   };
