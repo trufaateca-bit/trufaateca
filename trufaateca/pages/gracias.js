@@ -152,6 +152,8 @@ export const getServerSideProps = async (context) => {
       fecha: new Date().toISOString(),
       productos_facil: productos_legibles,
       productos,
+      estado: "Recibido",
+      seguimiento: "Sustituir por tracking"
     }]);
 
     if (error) {

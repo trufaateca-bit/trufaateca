@@ -35,6 +35,16 @@ export default {
             name: 'details',
             title: 'Detalles',
             type: 'string'
+        },
+        {
+            name: 'temporada',
+            title: 'Temporada',
+            type: 'string'
+        },
+        {
+            name: 'stock',
+            title: 'Stock',
+            type: 'string'
         }
     ]
 }

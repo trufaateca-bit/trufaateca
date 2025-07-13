@@ -255,6 +255,7 @@ padding: 0 16px; /* Add horizontal padding */
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
+  font-family: 'Lucida Handwriting', cursive;
 }
 
 .trufas-tipos {
@@ -271,7 +272,8 @@ padding: 0 16px; /* Add horizontal padding */
 
 .trufas-tipos .tipo p {
   font-size: 1rem;
-  margin-top:10px
+  margin-top:10px;
+  font-family: 'Lucida Handwriting', cursive;
 }
 
 
