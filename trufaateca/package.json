@@ -12,8 +12,10 @@
     "@sanity/client": "^7.2.1",
     "@sanity/image-url": "^1.1.0",
     "@stripe/stripe-js": "^7.3.0",
+    "@supabase/supabase-js": "^2.50.5",
     "canvas-confetti": "^1.9.3",
     "next": "15.3.2",
+    "nodemailer": "^7.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
@@ -24,5 +26,8 @@
     "@eslint/eslintrc": "^3",
     "eslint": "^9",
     "eslint-config-next": "15.3.2"
+  },
+  "engines": {
+    "node": ">=22.x"
   }
 }
