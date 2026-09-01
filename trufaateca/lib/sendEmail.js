@@ -1,11 +1,11 @@
 // lib/sendEmail.js
 import nodemailer from 'nodemailer';
 
-export async function sendEmailGmail({ to, name }) {
+export async function sendEmailGmail({ to, name, seguimientoUrl }) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.GMAIL_USER,     // tu email: trufaateca@gmail.com
+      user: process.env.GMAIL_USER,     // trufaateca@gmail.com
       pass: process.env.GMAIL_PASS,     // contraseña de aplicación
     },
   });
@@ -19,10 +19,22 @@ export async function sendEmailGmail({ to, name }) {
         <h2>¡Hola ${name || 'cliente'}!</h2>
         <p>Gracias por tu compra. Hemos recibido tu pedido.</p>
         <p>Lo prepararemos y enviaremos lo antes posible. Te mantendremos informado.</p>
+
+        <hr style="margin:20px 0;" />
+
+        <p><strong>📦 Puedes seguir tu pedido aquí:</strong></p>
+        <p>
+          <a href="${seguimientoUrl}" style="color:#6b4f2a;">
+            ${seguimientoUrl}
+          </a>
+        </p>
+
         <br/>
-        <p>📦 Si tienes dudas, escríbenos a <a href="mailto:trufaateca@gmail.com">trufaateca@gmail.com</a></p>
+        <p>Si tienes dudas, escríbenos a 
+          <a href="mailto:trufaateca@gmail.com">trufaateca@gmail.com</a>
+        </p>
+
         <br/>
-        <p>Atentamente,</p>
         <p><strong>El equipo de Trufateca</strong></p>
       </div>
     `,

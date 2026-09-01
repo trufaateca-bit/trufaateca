@@ -3,13 +3,17 @@ export default {
     title: 'Banner',
     type: 'document',
     fields: [
+            {
+        name: 'image',
+        title: 'Imagen clásica',
+        type: 'image',
+        options: { hotspot: true },
+        },
         {
-            name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: {
-                hotspot: true,
-            },
+        name: 'heroPhoto',
+        title: 'Foto real del hero (cosecha)',
+        type: 'image',
+        options: { hotspot: true },
         },
         {
             name: 'desc',

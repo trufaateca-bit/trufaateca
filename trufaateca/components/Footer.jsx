@@ -7,9 +7,6 @@ const Footer = ({footerBanner}) => {
   return (
     <div className='footer-container'>
       <p>2025 Trufaateca , todos los derechos reservados</p>
-      <p className='icons'>
-        <AiFillInstagram/>
-      </p>
     </div>
   )
 }

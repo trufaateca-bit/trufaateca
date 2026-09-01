@@ -47,7 +47,7 @@ const ProductDetails = ({ product, products }) => {
             <AiFillStar />
             <AiFillStar />
             <AiFillStar />
-            <AiOutlineStar />
+            <AiFillStar />
           </div>
           <p>(20)</p>
           <h3>Details:</h3>
@@ -135,8 +135,11 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const product = await client.fetch(productQuery);
   const products = await client.fetch(productosQuery);
 
+  const bannerQuery = `*[_type == "banner"]`;
+  const bannerData = await client.fetch(bannerQuery);
+
   return {
-    props: { products, product },
+    props: { products, product , bannerData},
   };
 };
 

@@ -153,7 +153,7 @@ export const getServerSideProps = async (context) => {
       productos_facil: productos_legibles,
       productos,
       estado: "Recibido",
-      seguimiento: "Sustituir por tracking"
+      seguimiento: "Pronto"
     }]);
 
     if (error) {
@@ -166,7 +166,14 @@ export const getServerSideProps = async (context) => {
     // 📧 Envío de correo con Gmail
     const email = orderDetails.email;
     const name = orderDetails.name;
-    const { success, error: emailError } = await sendEmailGmail({ to: email, name });
+    const seguimientoUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/estado_pedido?order=${session_id}`;
+
+    const { success, error: emailError } = await sendEmailGmail({
+      to: email,
+      name,
+      seguimientoUrl,
+    });
+
 
     if (!success) console.error("❌ Error al enviar email con Gmail:", emailError?.message);
     else console.log("✅ Email enviado correctamente");

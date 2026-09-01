@@ -1,37 +1,33 @@
-import React from 'react';
-import { urlFor } from '@/lib/sanity_client';
+import Link from 'next/link'
+import { urlFor } from '@/lib/sanity_client'
 
 const HeroBanner = ({ heroBanner }) => {
-  return (
-    <div className="hero-banner-container">
-      <img
-        src={urlFor(heroBanner.image)}
-        alt="Trufateca Logo"
-        className="hero-banner-image"
-      />
+  const heroImg = heroBanner?.heroPhoto ? urlFor(heroBanner.heroPhoto).url() : null
 
-      <div className="hero-banner-text">
-        <div className="intro-text">
-          <h3>Descubre el Tesoro de Nuestras Trufas Frescas</h3>
-          <p>{heroBanner.desc}</p>
-        </div>
-        <div className="trufas-tipos">
-          <div className="tipo">
-            <h4>🍂 Trufa Negra de Invierno</h4>
-            <p>{heroBanner.Trufa}</p>
-          </div>
-          <div className="tipo">
-            <h4>🌸 Trufa de Primavera</h4>
-            <p>{heroBanner.Trufa2}</p>
-          </div>
-          <div className="tipo">
-            <h4>🌞 Trufa de Verano</h4>
-            <p>{heroBanner.Trufa3}</p>
-          </div>
+  return (
+    <section className="hero-marketing">
+      <div className="hero-media">
+        {heroImg && (
+          <img
+            src={heroImg}
+            alt="Cosecha de trufas"
+            className="hero-media-img"
+          />
+        )}
+
+        <div className="hero-copy">
+          <h1>Trufa fresca directa del bosque</h1>
+          <p>Recolectadas a mano y enviadas en 24h. La auténtica experiencia gourmet.</p>
+
+          <Link href="#productos" legacyBehavior>
+            <a>
+              <button className="hero-cta-btn">Comprar ahora</button>
+            </a>
+          </Link>
         </div>
       </div>
-    </div>
-  );
-};
+    </section>
+  )
+}
 
-export default HeroBanner;
+export default HeroBanner

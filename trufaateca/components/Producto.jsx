@@ -7,35 +7,48 @@ const Producto = ({ product: { image, name, slug, price, temporada, stock } }) =
   const disponible = stock === "si";
   const puedeComprar = enTemporada && disponible;
 
-  const contenidoProducto = (
+  const Card = () => (
     <div className={`product-card ${!puedeComprar ? 'disabled' : ''}`}>
-      <img
-        src={urlFor(image && image[0])}
-        width={250}
-        height={250}
-        className='product-image'
-        style={!puedeComprar ? { filter: 'grayscale(100%)', opacity: 0.5 } : {}}
-      />
-      <p className='product-name'>{name}</p>
-      <p className='product-price'>{price} euros</p>
-      {!puedeComprar && (
-        <p className="product-nota">
-          {!enTemporada ? 'Fuera de temporada' : 'Sin stock'}
+      
+      {/* Imagen */}
+      <div className="product-image-wrapper">
+        <img
+          src={urlFor(image && image[0])}
+          alt={name}
+          className="product-image"
+        />
+
+        {!enTemporada && (
+          <span className="badge badge-temporada">
+            Fuera de temporada
+          </span>
+        )}
+
+        {!disponible && enTemporada && (
+          <span className="badge badge-stock">
+            Sin stock
+          </span>
+        )}
+      </div>
+
+      {/* Texto */}
+      <div className="product-info">
+        <h3 className="product-name">{name}</h3>
+
+        <p className="product-price">
+          {price} € <span className="price-unit">/ 100g</span>
         </p>
-      )}
+      </div>
+
     </div>
   );
 
-  return (
-    <div>
-      {puedeComprar ? (
-        <Link href={`/product/${slug.current}`}>
-          {contenidoProducto}
-        </Link>
-      ) : (
-        contenidoProducto
-      )}
-    </div>
+  return puedeComprar ? (
+    <Link href={`/product/${slug.current}`} className="product-link">
+      <Card />
+    </Link>
+  ) : (
+    <Card />
   );
 };
 

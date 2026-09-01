@@ -2,40 +2,55 @@ import nodemailer from 'nodemailer';
 
 export async function sendEstadoUpdateEmail({ to, name, estado, seguimiento }) {
   const estados = ['Recibido', 'Preparando', 'Enviado', 'Entregado'];
-  const estadoActual = estado.charAt(0).toUpperCase() + estado.slice(1).toLowerCase();
 
-  // Generar barra visual de progreso
+  // Normalizar
+  const estadoNormalizado =
+    estado.charAt(0).toUpperCase() + estado.slice(1).toLowerCase();
+
   const progresoHTML = estados.map(etapa => {
-    const completado = estados.indexOf(etapa) <= estados.indexOf(estadoActual);
-    return `<span style="
-      display:inline-block;
-      padding: 6px 12px;
-      border-radius: 20px;
-      margin-right: 10px;
-      background-color: ${completado ? '#4CAF50' : '#ddd'};
-      color: ${completado ? 'white' : '#555'};">
-      ${etapa}
-    </span>`;
+    const activo = estados.indexOf(etapa) <= estados.indexOf(estadoNormalizado);
+    return `
+      <span style="
+        padding:6px 12px;
+        border-radius:20px;
+        margin-right:8px;
+        background:${activo ? '#5a7c52' : '#e0e0e0'};
+        color:${activo ? 'white' : '#666'};
+        font-size:14px;
+      ">
+        ${etapa}
+      </span>
+    `;
   }).join('');
 
-  // Mensaje personalizado por estado
-  let mensajeEstado = '';
-  switch (estadoActual) {
-    case 'Recibido':
-      mensajeEstado = 'Hemos recibido tu pedido y pronto empezaremos a prepararlo.';
-      break;
-    case 'Preparando':
-      mensajeEstado = 'Estamos preparando cuidadosamente tu pedido.';
-      break;
-    case 'Enviado':
-      mensajeEstado = `¡Tu pedido ha sido enviado!${seguimiento ? `<br><br>🔍 Código de seguimiento: <strong>${seguimiento}</strong>` : ''}`;
-      break;
-    case 'Entregado':
-      mensajeEstado = '¡Tu pedido ha sido entregado! Esperamos que lo disfrutes.';
-      break;
-    default:
-      mensajeEstado = 'Tu pedido está en proceso.';
-  }
+  let mensaje = "";
+  if (estadoNormalizado === "Recibido") mensaje = "Hemos recibido tu pedido 🍄";
+  if (estadoNormalizado === "Preparando") mensaje = "Estamos preparando tu pedido 👨‍🍳";
+  if (estadoNormalizado === "Enviado") mensaje = "Tu pedido ha sido enviado 🚚";
+  if (estadoNormalizado === "Entregado") mensaje = "Tu pedido ha sido entregado 🎉";
+
+  const html = `
+    <div style="font-family:Arial; background:#f8f3ec; padding:30px; border-radius:16px;">
+      <h2>Hola ${name || 'cliente'} 👋</h2>
+      <p>${mensaje}</p>
+
+      <div style="margin:20px 0">
+        ${progresoHTML}
+      </div>
+
+      ${seguimiento ? `<p><strong>Tracking:</strong> ${seguimiento}</p>` : ""}
+
+      <a href="https://trufateca.com/estado_pedido?order=${seguimiento || ''}"
+         style="display:inline-block;margin-top:20px;padding:12px 20px;
+         background:#5a7c52;color:white;border-radius:30px;text-decoration:none;">
+        Ver estado de mi pedido
+      </a>
+
+      <p style="margin-top:30px;font-size:14px;color:#666">
+        Trufateca 🍄
+      </p>
+    </div>
+  `;
 
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -45,32 +60,10 @@ export async function sendEstadoUpdateEmail({ to, name, estado, seguimiento }) {
     },
   });
 
-  const html = `
-    <div style="font-family:sans-serif; padding: 20px;">
-      <h2>¡Hola ${name || 'cliente'}!</h2>
-      <p>${mensajeEstado}</p>
-      <br/>
-      <div style="margin-top: 10px;">
-        ${progresoHTML}
-      </div>
-      <br/>
-      <p>📦 Si tienes dudas, escríbenos a <a href="mailto:trufaateca@gmail.com">trufaateca@gmail.com</a></p>
-      <br/>
-      <p><strong>El equipo de Trufateca</strong></p>
-    </div>
-  `;
-
-  try {
-    await transporter.sendMail({
-      from: `"Trufateca" <${process.env.GMAIL_USER}>`,
-      to,
-      subject: `📦 Estado actualizado: ${estadoActual}`,
-      html,
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.error("❌ Error enviando email:", error.message);
-    return { success: false, error };
-  }
+  await transporter.sendMail({
+    from: `"Trufateca" <${process.env.GMAIL_USER}>`,
+    to,
+    subject: `📦 Estado de tu pedido: ${estadoNormalizado}`,
+    html,
+  });
 }
